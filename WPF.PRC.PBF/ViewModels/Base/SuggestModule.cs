@@ -1,8 +1,16 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using Catel;
 using Catel.Data;
+using Catel.IoC;
+using Catel.Messaging;
 using Catel.MVVM;
+using Catel.MVVM.Views;
 using WPF.PRC.PBF.Services.Interfaces;
 
 namespace WPF.PRC.PBF
@@ -15,16 +23,20 @@ namespace WPF.PRC.PBF
         private readonly char[] _delimiterChars = {' ', ',', '.', ':', ';'};
         private int _filtredItemsCounter;
         private readonly IDataBaseService _dataBaseService;
+        private readonly IMessageMediator _messageMediator;
 
         #endregion
 
 
         #region Default constructor
 
-        public SuggestModule(IDataBaseService dataBaseService)
+        public SuggestModule(IDataBaseService dataBaseService, IMessageMediator messageMediator)
         {
             Argument.IsNotNull(() => dataBaseService);
+            Argument.IsNotNull(() => messageMediator);
+
             _dataBaseService = dataBaseService;
+            _messageMediator = messageMediator;
 
             //Загрузка данных из контекста
             var collection = _dataBaseService.LoadObservableCollectionOf<TEntity>();
@@ -69,12 +81,9 @@ namespace WPF.PRC.PBF
         public static readonly PropertyData SelectedItemProperty =
             RegisterProperty("SelectedItem", typeof(TEntity), null,
                 (sender, e) => ((SuggestModule<TEntity>) sender).OnSelectedItemChanged());
-
-        
-
         
         #endregion
-
+        
         #region ItemsCollection property
 
         public ObservableCollection<TEntity> ItemsCollection
@@ -92,6 +101,32 @@ namespace WPF.PRC.PBF
 
 
         #region Commands
+
+        #region CompliteChoise command
+
+        private TaskCommand _compliteChoiseCommand;
+
+        /// <summary>
+        ///     Gets the CompliteChoise command.
+        /// </summary>
+        public TaskCommand CompliteChoiseCommand => _compliteChoiseCommand ?? (_compliteChoiseCommand = new TaskCommand(CompliteChoise));
+
+        /// <summary>
+        ///     Method to invoke when the CompliteChoise command is executed.
+        /// </summary>
+        private async Task CompliteChoise()
+        {
+            if (SelectedItem == null) return;
+
+            var views = ServiceLocator.Default.ResolveType<IViewManager>().GetViewsOfViewModel(this);
+            
+            views[0].DataContext = null;
+
+            _messageMediator.SendMessage(SelectedItem);
+        }
+
+        #endregion
+
 
         #region AddNewEntry command
 
@@ -116,9 +151,7 @@ namespace WPF.PRC.PBF
 
 
         #region Methods
-
         
-
         /// <summary>
         ///     Method to invoke when the SearchText changed.
         /// </summary>
@@ -151,6 +184,7 @@ namespace WPF.PRC.PBF
             //    Messenger.Default.Send(new NotificationMessage(SelectedItem, typeof(TEntity).ToString()));
         }
 
+        
         /// <summary>
         /// Called when the SelectedItem property has changed.
         /// </summary>

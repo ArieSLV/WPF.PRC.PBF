@@ -1,4 +1,6 @@
-﻿
+﻿using Catel.Data;
+using Catel.Messaging;
+using Catel.MVVM.Views;
 using WPF.PRC.PBF.Services.Interfaces;
 
 namespace WPF.PRC.PBF
@@ -8,28 +10,12 @@ namespace WPF.PRC.PBF
     /// </summary>
     public class CitizenshipSuggestViewModel : SuggestModule<Citizenship>
     {
-        public CitizenshipSuggestViewModel(IDataBaseService dataBaseService) : base(dataBaseService)
+        public CitizenshipSuggestViewModel(IDataBaseService dataBaseService, IMessageMediator messageMediator) : base(dataBaseService, messageMediator)
         {
             
         }
 
-        //#region Citizenship свойство
-
-        ///// <summary>
-        ///// Получает или устанавливает значение Citizenship.
-        ///// </summary>
-        //public Citizenship Citizenship
-        //{
-        //    get => GetValue<Citizenship>(CitizenshipProperty);
-        //    set => SetValue(CitizenshipProperty, value);
-        //}
-
-        ///// <summary>
-        ///// Citizenship property data.
-        ///// </summary>
-        //public static readonly PropertyData CitizenshipProperty = RegisterProperty<CitizenshipSuggestViewModel, Citizenship>(model => model.Citizenship);
-
-        //#endregion
+        
 
         //public override void OnAddCommand()
         //{
@@ -44,14 +30,12 @@ namespace WPF.PRC.PBF
         //            ((CitizenshipEditorWindowViewModel) citizenshipEditorWindow.DataContext).Citizenship,
         //            $"{typeof(Citizenship)}.AddToDB"));
 
-            
+
         //    SearchText = string.Empty;
         //    SearchText = viewModel.Citizenship.ToString();
         //}
 
-        //public override void OnSelectedItemChanged()
-        //{
-        //    Citizenship = SelectedItem;
-        //}
+        
+
     }
 }

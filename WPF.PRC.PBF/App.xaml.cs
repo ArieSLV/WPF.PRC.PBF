@@ -1,4 +1,5 @@
-﻿using Catel.MVVM;
+﻿using System.Windows.Forms;
+using Catel.MVVM;
 using WPF.PRC.PBF.Services;
 using WPF.PRC.PBF.Services.Interfaces;
 using WPF.PRC.PBF.Views.UserControls;
@@ -49,7 +50,9 @@ namespace WPF.PRC.PBF
 
             // To auto-forward styles, check out Orchestra (see https://github.com/wildgums/orchestra)
             StyleHelper.CreateStyleForwardersForDefaultStyles();
-            
+
+
+            InputLanguage.CurrentInputLanguage = InputLanguage.FromCulture(new System.Globalization.CultureInfo("ru-RU"));
 
             Log.Info("Calling base.OnStartup");
             base.OnStartup(e);

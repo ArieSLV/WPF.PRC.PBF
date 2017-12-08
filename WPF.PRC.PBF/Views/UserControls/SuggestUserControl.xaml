@@ -5,7 +5,7 @@
     xmlns:catel="http://schemas.catelproject.com"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:pbf="clr-namespace:WPF.PRC.PBF">
-    
+
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -19,13 +19,13 @@
                     Width="200"
                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}">
                     <i:Interaction.Behaviors>
-                        <pbf:ChangeIsOpenOnFocus
-                            ResetButton="{Binding ElementName=ResetButton}"
-                            TargetListBox="{Binding ElementName=SuggestList}"
-                            TargetPopup="{Binding ElementName=Popup}" />
+                        <catel:KeyPressToCommand
+                            Key="Enter"
+                            Command="{Binding CompliteChoiseCommand}"
+                            Modifiers="Ctrl" />
+                        <pbf:ChangeIsOpenOnFocus TargetListBox="{Binding ElementName=SuggestList}" TargetPopup="{Binding ElementName=Popup}" />
                     </i:Interaction.Behaviors>
                 </TextBox>
-                <Button Name="ResetButton" Visibility="Collapsed">Reset</Button>
             </StackPanel>
             <Popup
                 Name="Popup"

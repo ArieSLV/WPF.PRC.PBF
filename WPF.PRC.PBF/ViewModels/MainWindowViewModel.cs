@@ -1,19 +1,31 @@
-﻿using Catel.Data;
+﻿using System;
+using System.Collections.Generic;
+using Catel.Data;
+using Catel;
+using Catel.MVVM;
+using System.Threading.Tasks;
+using System.Windows;
 using Catel.IoC;
+using Catel.Messaging;
+using Catel.MVVM.Views;
+using Catel.Windows.Controls;
 
 namespace WPF.PRC.PBF.ViewModels
 {
-    using Catel;
-    using Catel.MVVM;
-    using System.Threading.Tasks;
-
+    
     public class MainWindowViewModel : ViewModelBase
     {
-        public MainWindowViewModel(Person person)
-        {
-            Argument.IsNotNull(()=>person);
+        private readonly IMessageMediator _messageMediator;
+        
 
-            Person = person;
+        public MainWindowViewModel(IMessageMediator messageMediator)
+        {
+            Argument.IsNotNull(() => messageMediator);
+            
+            _messageMediator = messageMediator;
+            
+
+            Person = new Person();
         }
 
         public override string Title => "Test";
@@ -22,19 +34,20 @@ namespace WPF.PRC.PBF.ViewModels
         #region Person model
 
         /// <summary>
-        /// Получает или устанавливает значение Person.
+        ///     Получает или устанавливает значение Person.
         /// </summary>
         [Model]
         public Person Person
         {
             get => GetValue<Person>(PersonProperty);
-            set => SetValue(PersonProperty, value);
+            private set => SetValue(PersonProperty, value);
         }
 
         /// <summary>
-        /// Person property data.
+        ///     Person property data.
         /// </summary>
-        public static readonly PropertyData PersonProperty = RegisterProperty<MainWindowViewModel, Person>(model => model.Person);
+        public static readonly PropertyData PersonProperty =
+            RegisterProperty<MainWindowViewModel, Person>(model => model.Person);
 
         #endregion
 
@@ -43,7 +56,7 @@ namespace WPF.PRC.PBF.ViewModels
         /// <summary>
         /// Получает или устанавливает значение Citizenship.
         /// </summary>
-        [ViewModelToModel("Person")]
+        [ViewModelToModel]
         public Citizenship Citizenship
         {
             get => GetValue<Citizenship>(CitizenshipProperty);
@@ -57,36 +70,20 @@ namespace WPF.PRC.PBF.ViewModels
 
         #endregion
 
-        #region CitizenshipViewModel свойство
-
-        /// <summary>
-        /// Получает или устанавливает значение CitizenshipViewModel.
-        /// </summary>
-        public IViewModel CitizenshipViewModel
-        {
-            get => GetValue<IViewModel>(CitizenshipViewModelProperty);
-            set => SetValue(CitizenshipViewModelProperty, value);
-        }
-
-        /// <summary>
-        /// CitizenshipViewModel property data.
-        /// </summary>
-        public static readonly PropertyData CitizenshipViewModelProperty = RegisterProperty<MainWindowViewModel, IViewModel>(model => model.CitizenshipViewModel);
-
-        #endregion
-
-
         protected override async Task InitializeAsync()
         {
             await base.InitializeAsync();
 
-            CitizenshipViewModel = this.GetTypeFactory().CreateInstance<CitizenshipSuggestViewModel>();
-            
+            _messageMediator.Register<Citizenship>(this, citizenship =>
+            {
+                Citizenship = citizenship;
+                
+            });
         }
 
         protected override async Task CloseAsync()
         {
-            // TODO: unsubscribe from events here
+            // unsubscribe from events here
 
             await base.CloseAsync();
         }

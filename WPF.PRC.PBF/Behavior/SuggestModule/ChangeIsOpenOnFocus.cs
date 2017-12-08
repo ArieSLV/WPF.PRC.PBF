@@ -85,16 +85,16 @@ namespace WPF.PRC.PBF
                     }
                     e.Handled = true;
                     break;
-                case Key.Enter:
-                    if (TargetListBox.Items.Count != 1) break;
+                //case Key.Enter:
+                //    if (TargetListBox.Items.Count != 1) break;
 
-                    AssociatedObject.IsEnabled = false;
-                    TargetPopup.StaysOpen = false;
-                    TargetPopup.IsOpen = false;
+                //    AssociatedObject.IsEnabled = false;
+                //    TargetPopup.StaysOpen = false;
+                //    TargetPopup.IsOpen = false;
 
-                    ResetButton.Visibility = Visibility.Visible;
+                    
 
-                    break;
+                //    break;
                 
             }
         }
@@ -119,6 +119,8 @@ namespace WPF.PRC.PBF
 
         #region Public dependency poperties
 
+        #region TargetPopup
+
         public static readonly DependencyProperty TargetPopupProperty = DependencyProperty.Register(
             "TargetPopup", typeof(Popup), typeof(ChangeIsOpenOnFocus),
             new PropertyMetadata(default(Popup)));
@@ -132,6 +134,10 @@ namespace WPF.PRC.PBF
             set => SetValue(TargetPopupProperty, value);
         }
 
+        #endregion
+
+        #region TargetListBox
+
         public static readonly DependencyProperty TargetListBoxProperty = DependencyProperty.Register(
             "TargetListBox", typeof(ListBox), typeof(ChangeIsOpenOnFocus), new PropertyMetadata(default(ListBox)));
 
@@ -144,14 +150,24 @@ namespace WPF.PRC.PBF
             set => SetValue(TargetListBoxProperty, value);
         }
 
-        public static readonly DependencyProperty ResetButtonProperty = DependencyProperty.Register(
-            "ResetButton", typeof(Button), typeof(ChangeIsOpenOnFocus), new PropertyMetadata(default(Button)));
+        #endregion
 
-        public Button ResetButton
-        {
-            get => (Button) GetValue(ResetButtonProperty);
-            set => SetValue(ResetButtonProperty, value);
-        }
+        #region SuggestableObject
+
+        //public static readonly DependencyProperty SuggestableObjectProperty = DependencyProperty.Register(
+        //    "SuggestableObject", typeof(ISuggestable), typeof(ChangeIsOpenOnFocus),
+        //    new PropertyMetadata(default(ISuggestable)));
+
+
+
+
+        //public ISuggestable SuggestableObject
+        //{
+        //    get => (ISuggestable) GetValue(SuggestableObjectProperty);
+        //    set => SetValue(SuggestableObjectProperty, value);
+        //}
+
+        #endregion
 
         #endregion
     }

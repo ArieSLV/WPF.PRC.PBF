@@ -4,7 +4,6 @@ using System.Data.Entity;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using Catel;
 using WPF.PRC.PBF.Services.Interfaces;
 
 namespace WPF.PRC.PBF.Services
@@ -22,23 +21,20 @@ namespace WPF.PRC.PBF.Services
         {
             try
             {
-                using (_db)
-                {
-                    var key = typeof(T).Name;
-                    var adapter = (IObjectContextAdapter) _db;
-                    var objectContext = adapter.ObjectContext;
+                var key = typeof(T).Name;
+                var adapter = (IObjectContextAdapter) _db;
+                var objectContext = adapter.ObjectContext;
 
-                    var container = objectContext.MetadataWorkspace.GetEntityContainer(
-                        objectContext.DefaultContainerName,
-                        DataSpace.CSpace);
+                var container = objectContext.MetadataWorkspace.GetEntityContainer(
+                    objectContext.DefaultContainerName,
+                    DataSpace.CSpace);
 
-                    //Если в данной строке происходит исключение, нужно проверить реализацию в прошлой версии
-                    var name = container.BaseEntitySets.FirstOrDefault(o => o.ElementType.Name.Equals(key))?.Name;
+                //Если в данной строке происходит исключение, нужно проверить реализацию в прошлой версии
+                var name = container.BaseEntitySets.FirstOrDefault(o => o.ElementType.Name.Equals(key))?.Name;
 
-                    var query = objectContext.CreateQuery<T>($"[{name}]");
-                    
-                    return new ObservableCollection<T>(query.AsEnumerable());
-                }
+                var query = objectContext.CreateQuery<T>($"[{name}]");
+
+                return new ObservableCollection<T>(query.AsEnumerable());
             }
             catch (Exception ex)
             {
