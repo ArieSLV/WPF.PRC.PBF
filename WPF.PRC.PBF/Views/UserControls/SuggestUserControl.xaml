@@ -1,0 +1,63 @@
+﻿<catel:UserControl
+    x:Class="WPF.PRC.PBF.Views.UserControls.SuggestUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:catel="http://schemas.catelproject.com"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:pbf="clr-namespace:WPF.PRC.PBF">
+    
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <StackPanel Orientation="Horizontal">
+                <TextBox
+                    Name="SearchingTextBox"
+                    Width="200"
+                    Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}">
+                    <i:Interaction.Behaviors>
+                        <pbf:ChangeIsOpenOnFocus
+                            ResetButton="{Binding ElementName=ResetButton}"
+                            TargetListBox="{Binding ElementName=SuggestList}"
+                            TargetPopup="{Binding ElementName=Popup}" />
+                    </i:Interaction.Behaviors>
+                </TextBox>
+                <Button Name="ResetButton" Visibility="Collapsed">Reset</Button>
+            </StackPanel>
+            <Popup
+                Name="Popup"
+                AllowsTransparency="True"
+                Placement="Bottom"
+                PlacementTarget="{Binding ElementName=SearchingTextBox}">
+                <Border>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <ListBox
+                            Name="SuggestList"
+                            Grid.Column="0"
+                            Width="{Binding ElementName=SearchingTextBox, Path=Width}"
+                            ItemsSource="{Binding ItemsCollection}" />
+                        <StackPanel Grid.Column="1">
+                            <Button IsEnabled="{Binding ElementName=SearchingTextBox, Path=Text, Converter={pbf:StringIsNotEmptyToBoolTrue}, Mode=OneWay}">
+                                <TextBlock Text="add new" />
+                            </Button>
+                            <Button IsEnabled="{Binding ElementName=SuggestList, Path=SelectedItem, Converter={pbf:NotNullToBoolTrue}}">
+                                <TextBlock Text="remove" />
+                            </Button>
+                            <Button IsEnabled="{Binding ElementName=SuggestList, Path=SelectedItem, Converter={pbf:NotNullToBoolTrue}}">
+                                <TextBlock Text="edit" />
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Popup>
+        </StackPanel>
+    </Grid>
+
+</catel:UserControl>

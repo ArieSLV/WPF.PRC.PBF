@@ -1,0 +1,27 @@
+﻿<catel:Window
+    x:Class="WPF.PRC.PBF.Views.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:catel="http://schemas.catelproject.com"
+    xmlns:userControls="clr-namespace:WPF.PRC.PBF.Views.UserControls"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    ResizeMode="CanResize">
+
+    
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <TextBox Grid.Row="0">Test</TextBox>
+
+        <userControls:SuggestUserControl
+            Grid.Row="1"
+            Grid.Column="0"
+            DataContext="{Binding CitizenshipViewModel}" />
+        
+    </Grid>
+
+</catel:Window>
