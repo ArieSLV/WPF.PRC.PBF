@@ -14,42 +14,16 @@ namespace WPF.PRC.PBF
         /// </summary>
         public string DefaultValue { get; } = "[Страна не выбрана]";
 
-        #region CitizenshipId свойство
-
         /// <summary>
         ///     Получает или устанавливает значение ID в базе данных гражданства.
         /// </summary>
-        public long CitizenshipId
-        {
-            get => GetValue<long>(CitizenshipIdProperty);
-            set => SetValue(CitizenshipIdProperty, value);
-        }
-
-        /// <summary>
-        ///     CitizenshipId property data.
-        /// </summary>
-        public static readonly PropertyData CitizenshipIdProperty =
-            RegisterProperty<Citizenship, long>(model => model.CitizenshipId);
-
-        #endregion
-
-        #region Value свойство
-
+        public long CitizenshipId { get; set; }
+        
         /// <summary>
         ///     Получает или устанавливает значение имени страны.
         /// </summary>
-        public string Value
-        {
-            get => GetValue<string>(ValueProperty);
-            set => SetValue(ValueProperty, value);
-        }
-
-        /// <summary>
-        ///     Value property data.
-        /// </summary>
-        public static readonly PropertyData ValueProperty = RegisterProperty<Citizenship, string>(model => model.Value);
-
-        #endregion
+        public string Value { get; set; }
+        
 
         /// <summary>
         ///     Явное указание текстового представления гражданства

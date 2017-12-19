@@ -6,143 +6,36 @@ using Catel.Data;
 namespace WPF.PRC.PBF
 {
     /// <summary>
-    ///     Тип лицевого счета
-    /// </summary>
-    public enum ShareholderAccountType
-    {
-        /// <summary>
-        ///     Владелец
-        /// </summary>
-        [StringValue("Владелец")] Owner,
-
-        /// <summary>
-        ///     Номинальный держатель
-        /// </summary>
-        [StringValue("Номинальный держатель")] Nominee,
-
-        /// <summary>
-        ///     Доверительный управляющий
-        /// </summary>
-        [StringValue("Доверительный управляющий")] Trustee,
-
-        /// <summary>
-        ///     Депозитный
-        /// </summary>
-        [StringValue("Депозитный")] Deposit,
-
-        /// <summary>
-        ///     Казначейский
-        /// </summary>
-        [StringValue("Казначейский")] Treasury,
-
-        /// <summary>
-        ///     Центральный депозитарий
-        /// </summary>
-        [StringValue("Центральный депозитарий")] CentralDepository
-    }
-
-    /// <summary>
     ///     Лицевой счет акционера
     /// </summary>
     [Serializable]
     [Table("ShareholderAccount")]
     public class ShareholderAccount : ModelBase
     {
-        #region ShareholderAccountId свойство
-
         /// <summary>
         ///     Получает или устанавливает значение ID в базе данных лицевого счета.
         /// </summary>
-        public long ShareholderAccountId
-        {
-            get => GetValue<long>(ShareholderAccountIdProperty);
-            set => SetValue(ShareholderAccountIdProperty, value);
-        }
-
-        /// <summary>
-        ///     ShareholderAccountId property data.
-        /// </summary>
-        public static readonly PropertyData ShareholderAccountIdProperty =
-            RegisterProperty<ShareholderAccount, long>(model => model.ShareholderAccountId);
-
-        #endregion
-
-        #region Number свойство
+        public long ShareholderAccountId { get; set; }
 
         /// <summary>
         ///     Получает или устанавливает значение номера лицевого счета.
         /// </summary>
-        public string Number
-        {
-            get => GetValue<string>(NumberProperty);
-            set => SetValue(NumberProperty, value);
-        }
-
-        /// <summary>
-        ///     Number property data.
-        /// </summary>
-        public static readonly PropertyData NumberProperty =
-            RegisterProperty<ShareholderAccount, string>(model => model.Number);
-
-        #endregion
-
-        #region SecuritiesIssuer свойство
+        public string Number { get; set; }
 
         /// <summary>
         ///     Получает или устанавливает значение эмитента, в реестре которого открыт лицевой счет.
         /// </summary>
-        public virtual LegalEntity SecuritiesIssuer
-        {
-            get => GetValue<LegalEntity>(SecuritiesIssuerProperty);
-            set => SetValue(SecuritiesIssuerProperty, value);
-        }
-
-        /// <summary>
-        ///     SecuritiesIssuer property data.
-        /// </summary>
-        public static readonly PropertyData SecuritiesIssuerProperty =
-            RegisterProperty<ShareholderAccount, LegalEntity>(model => model.SecuritiesIssuer);
-
-        #endregion
-
-        #region ShareholderAccountType свойство
+        public virtual LegalEntity SecuritiesIssuer { get; set; }
 
         /// <summary>
         ///     Получает или устанавливает значение типа лицевого счета.
         /// </summary>
-        public ShareholderAccountType ShareholderAccountType
-        {
-            get => GetValue<ShareholderAccountType>(ShareholderAccountTypeProperty);
-            set => SetValue(ShareholderAccountTypeProperty, value);
-        }
-
-        /// <summary>
-        ///     ShareholderAccountType property data.
-        /// </summary>
-        public static readonly PropertyData ShareholderAccountTypeProperty =
-            RegisterProperty<ShareholderAccount, ShareholderAccountType>(model => model.ShareholderAccountType);
-
-        #endregion
-
-        #region Unit свойство
+        public ShareholderAccountType ShareholderAccountType { get; set; }
 
         /// <summary>
         ///     Получает или устанавливает значение лица, которому принадлежит лицевой счет.
         /// </summary>
-        public Unit Unit
-        {
-            get => GetValue<Unit>(UnitProperty);
-            set => SetValue(UnitProperty, value);
-        }
-
-        /// <summary>
-        ///     Unit property data.
-        /// </summary>
-        public static readonly PropertyData UnitProperty =
-            RegisterProperty<ShareholderAccount, Unit>(model => model.Unit);
-
-        #endregion
-
+        public Unit Unit { get; set; }
 
         /// <summary>
         ///     Явное указание текстового представления лицевого счета

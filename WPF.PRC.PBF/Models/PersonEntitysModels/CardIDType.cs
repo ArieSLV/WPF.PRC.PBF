@@ -9,42 +9,15 @@ namespace WPF.PRC.PBF
     [Table("CardIDTypes")]
     public class CardIDType : ModelBase
     {
-        #region CardIDTypeId свойство
-
         /// <summary>
         ///     Получает или устанавливает значение ID в базе данных типа документа, удостоверяющего личность физического лица.
         /// </summary>
-        public long CardIDTypeId
-        {
-            get => GetValue<long>(CardIDTypeIdProperty);
-            set => SetValue(CardIDTypeIdProperty, value);
-        }
-
-        /// <summary>
-        ///     CardIDTypeId property data.
-        /// </summary>
-        public static readonly PropertyData CardIDTypeIdProperty =
-            RegisterProperty<CardIDType, long>(model => model.CardIDTypeId);
-
-        #endregion
-        
-        #region Value свойство
+        public long CardIDTypeId { get; set; }
 
         /// <summary>
         ///     Получает или устанавливает значение наименования типа документа, удостоверяющего личность физического лица.
         /// </summary>
-        public string Value
-        {
-            get => GetValue<string>(ValueProperty);
-            set => SetValue(ValueProperty, value);
-        }
-
-        /// <summary>
-        ///     Value property data.
-        /// </summary>
-        public static readonly PropertyData ValueProperty = RegisterProperty<CardIDType, string>(model => model.Value);
-
-        #endregion
+        public string Value { get; set; }
         
         /// <summary>
         ///     Явное уазание текстового представления типа документа, удостоверяющего личность физического лица

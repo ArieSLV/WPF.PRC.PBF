@@ -71,19 +71,21 @@ namespace WPF.PRC.PBF
         public static readonly PropertyData SelectedItemProperty =
             RegisterProperty("SelectedItem", typeof(ISuggestable), null,
                 (sender, e) => ((SuggestModule) sender).OnSelectedItemChanged());
-        
+
         #endregion
-        
+
         #region ItemsCollection property
 
-        public ObservableCollection<ISuggestable> ItemsCollection
-        {
-            get => GetValue<ObservableCollection<ISuggestable>>(ItemsCollectionProperty);
-            set => SetValue(ItemsCollectionProperty, value);
-        }
+        public ObservableCollection<ISuggestable> ItemsCollection { get; set; }
 
-        public static readonly PropertyData ItemsCollectionProperty =
-            RegisterProperty("ItemsCollection", typeof(ObservableCollection<ISuggestable>));
+        //public ObservableCollection<ISuggestable> ItemsCollection
+        //{
+        //    get => GetValue<ObservableCollection<ISuggestable>>(ItemsCollectionProperty);
+        //    set => SetValue(ItemsCollectionProperty, value);
+        //}
+
+        //public static readonly PropertyData ItemsCollectionProperty =
+        //    RegisterProperty("ItemsCollection", typeof(ObservableCollection<ISuggestable>));
 
         #endregion
 
@@ -101,7 +103,27 @@ namespace WPF.PRC.PBF
         /// <summary>
         /// EntityType property data.
         /// </summary>
-        public static readonly PropertyData EntityTypeProperty = RegisterProperty<SuggestModule, SuggestEntityType>(model => model.EntityType);
+        public static readonly PropertyData EntityTypeProperty = RegisterProperty("EntityType",
+            typeof(SuggestEntityType), SuggestEntityType.Unknown,
+            (sender, e) => ((SuggestModule)sender).OnEntityTypeChanged());
+
+        private void OnEntityTypeChanged()
+        {
+            IEnumerable<ISuggestable> collection = new ObservableCollection<ISuggestable>();
+
+            switch (EntityType)
+            {
+                case SuggestEntityType.PlaceOfBirth:
+                    collection = _dataBaseService.LoadObservableCollectionOf<PlaceOfBirth>();
+                    break;
+                case SuggestEntityType.Citizenship:
+                    collection = _dataBaseService.LoadObservableCollectionOf<Citizenship>();
+                    break;
+            }
+
+            ItemsCollection = new ObservableCollection<ISuggestable>(collection);
+            ItemsCollection.Sort();
+        }
 
         #endregion
 
@@ -125,10 +147,6 @@ namespace WPF.PRC.PBF
         private async Task CompliteChoise()
         {
             if (SelectedItem == null) return;
-
-            var views = ServiceLocator.Default.ResolveType<IViewManager>().GetViewsOfViewModel(this);
-            
-            views[0].DataContext = null;
 
             _messageMediator.SendMessage(SelectedItem);
         }
@@ -177,7 +195,7 @@ namespace WPF.PRC.PBF
                 foreach (var filterWord in SearchText.ToLower().Split(_delimiterChars))
 
                     if (tEntity != null && !tEntity.ToString().ToLower().Contains(filterWord.ToLower())) return false;
-
+                
                 _filtredItemsCounter += 1;
 
                 if (_filtredItemsCounter == 1) SelectedItem = tEntity;
@@ -197,24 +215,7 @@ namespace WPF.PRC.PBF
         /// Called when the SelectedItem property has changed.
         /// </summary>
         public virtual void OnSelectedItemChanged() { }
-
-        protected override Task InitializeAsync()
-        {
-            IEnumerable<ISuggestable> collection = new ObservableCollection<ISuggestable>();
-            switch (EntityType)
-            {
-                case SuggestEntityType.PlaceOfBirth:
-                    collection = _dataBaseService.LoadObservableCollectionOf<PlaceOfBirth>();
-                    break;
-                case SuggestEntityType.Citizenship:
-                    collection = _dataBaseService.LoadObservableCollectionOf<Citizenship>();
-                    break;
-            }
-            ItemsCollection = new ObservableCollection<ISuggestable>(collection);
-            ItemsCollection.Sort();
-
-            return base.InitializeAsync();
-        }
+        
 
         #endregion
     }

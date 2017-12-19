@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using Catel.MVVM.Views;
-using WPF.PRC.PBF.ViewModels;
 using WPF.PRC.PBF.ViewModels.Enums;
 
 namespace WPF.PRC.PBF.Views.UserControls

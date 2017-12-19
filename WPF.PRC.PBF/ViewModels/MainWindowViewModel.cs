@@ -15,8 +15,17 @@ namespace WPF.PRC.PBF.ViewModels
     
     public class MainWindowViewModel : ViewModelBase
     {
+        public override string Title => "Test";
+
+
+        #region Private fields
+
         private readonly IMessageMediator _messageMediator;
+
+        #endregion
         
+        
+        #region Default constructor
 
         public MainWindowViewModel(IMessageMediator messageMediator)
         {
@@ -27,56 +36,32 @@ namespace WPF.PRC.PBF.ViewModels
             Person = new Person();
         }
 
-        public override string Title => "Test";
+        #endregion
 
 
-        #region Person model
+        #region Public properties
 
-        /// <summary>
-        ///     Получает или устанавливает значение Person.
-        /// </summary>
         [Model]
-        public Person Person
-        {
-            get => GetValue<Person>(PersonProperty);
-            private set => SetValue(PersonProperty, value);
-        }
-
-        /// <summary>
-        ///     Person property data.
-        /// </summary>
-        public static readonly PropertyData PersonProperty =
-            RegisterProperty<MainWindowViewModel, Person>(model => model.Person);
-
-        #endregion
-
-        #region Citizenship свойство
-
-        /// <summary>
-        /// Получает или устанавливает значение Citizenship.
-        /// </summary>
+        public Person Person { get; set; }
+        
         [ViewModelToModel]
-        public Citizenship Citizenship
-        {
-            get => GetValue<Citizenship>(CitizenshipProperty);
-            set => SetValue(CitizenshipProperty, value);
-        }
-
-        /// <summary>
-        /// Citizenship property data.
-        /// </summary>
-        public static readonly PropertyData CitizenshipProperty = RegisterProperty<MainWindowViewModel, Citizenship>(model => model.Citizenship);
+        public Citizenship Citizenship { get; set; }
 
         #endregion
+
+        
+        #region Methods
 
         protected override async Task InitializeAsync()
         {
             await base.InitializeAsync();
 
-            _messageMediator.Register<Citizenship>(this, citizenship =>
+            _messageMediator.Register<ISuggestable>(this, citizenship =>
             {
-                Citizenship = citizenship;
-                
+                if (citizenship.GetType() == typeof(Citizenship))
+                {
+                    Citizenship = (Citizenship)citizenship;
+                }
             });
         }
 
@@ -86,5 +71,7 @@ namespace WPF.PRC.PBF.ViewModels
 
             await base.CloseAsync();
         }
+
+        #endregion
     }
 }
