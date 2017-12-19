@@ -101,14 +101,7 @@ namespace WPF.PRC.PBF
         /// <summary>
         /// EntityType property data.
         /// </summary>
-        public static readonly PropertyData EntityTypeProperty = RegisterProperty("EntityType",
-            typeof(SuggestEntityType), SuggestEntityType.Unknown,
-            (sender, e) => ((SuggestModule) sender).OnEntityTypeChanged());
-
-        private void OnEntityTypeChanged()
-        {
-           
-        }
+        public static readonly PropertyData EntityTypeProperty = RegisterProperty<SuggestModule, SuggestEntityType>(model => model.EntityType);
 
         #endregion
 
