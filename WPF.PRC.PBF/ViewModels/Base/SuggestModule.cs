@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Data;
 using Catel;
 using Catel.Data;
@@ -12,11 +9,11 @@ using Catel.Messaging;
 using Catel.MVVM;
 using Catel.MVVM.Views;
 using WPF.PRC.PBF.Services.Interfaces;
+using WPF.PRC.PBF.ViewModels.Enums;
 
 namespace WPF.PRC.PBF
 {
-    public class SuggestModule<TEntity> : ViewModelBase 
-        where TEntity : class, ISuggestable, new()
+    public class SuggestModule : ViewModelBase 
     {
         #region Private fields
 
@@ -37,13 +34,6 @@ namespace WPF.PRC.PBF
 
             _dataBaseService = dataBaseService;
             _messageMediator = messageMediator;
-
-            //Загрузка данных из контекста
-            var collection = _dataBaseService.LoadObservableCollectionOf<TEntity>();
-            ItemsCollection = new ObservableCollection<TEntity>(collection);
-
-            //Сортировка данных
-            ItemsCollection.Sort();
         }
 
         #endregion
@@ -60,7 +50,7 @@ namespace WPF.PRC.PBF
         }
 
         public static readonly PropertyData SearchTextProperty = RegisterProperty("SearchText", typeof(string), null,
-            (sender, e) => ((SuggestModule<TEntity>)sender).SearchTextTextChanged());
+            (sender, e) => ((SuggestModule)sender).OnSearchTextTextChanged());
 
         #endregion
 
@@ -69,9 +59,9 @@ namespace WPF.PRC.PBF
         /// <summary>
         ///     Gets or sets the SelectedItem value.
         /// </summary>
-        public TEntity SelectedItem
+        public ISuggestable SelectedItem
         {
-            get => GetValue<TEntity>(SelectedItemProperty);
+            get => GetValue<ISuggestable>(SelectedItemProperty);
             set => SetValue(SelectedItemProperty, value);
         }
 
@@ -79,21 +69,46 @@ namespace WPF.PRC.PBF
         ///     SelectedItem property data.
         /// </summary>
         public static readonly PropertyData SelectedItemProperty =
-            RegisterProperty("SelectedItem", typeof(TEntity), null,
-                (sender, e) => ((SuggestModule<TEntity>) sender).OnSelectedItemChanged());
+            RegisterProperty("SelectedItem", typeof(ISuggestable), null,
+                (sender, e) => ((SuggestModule) sender).OnSelectedItemChanged());
         
         #endregion
         
         #region ItemsCollection property
 
-        public ObservableCollection<TEntity> ItemsCollection
+        public ObservableCollection<ISuggestable> ItemsCollection
         {
-            get => GetValue<ObservableCollection<TEntity>>(ItemsCollectionProperty);
+            get => GetValue<ObservableCollection<ISuggestable>>(ItemsCollectionProperty);
             set => SetValue(ItemsCollectionProperty, value);
         }
 
         public static readonly PropertyData ItemsCollectionProperty =
-            RegisterProperty("ItemsCollection", typeof(ObservableCollection<TEntity>));
+            RegisterProperty("ItemsCollection", typeof(ObservableCollection<ISuggestable>));
+
+        #endregion
+
+        #region EntityType свойство
+
+        /// <summary>
+        /// Получает или устанавливает значение EntityType.
+        /// </summary>
+        public SuggestEntityType EntityType
+        {
+            get => GetValue<SuggestEntityType>(EntityTypeProperty);
+            set => SetValue(EntityTypeProperty, value);
+        }
+
+        /// <summary>
+        /// EntityType property data.
+        /// </summary>
+        public static readonly PropertyData EntityTypeProperty = RegisterProperty("EntityType",
+            typeof(SuggestEntityType), SuggestEntityType.Unknown,
+            (sender, e) => ((SuggestModule) sender).OnEntityTypeChanged());
+
+        private void OnEntityTypeChanged()
+        {
+           
+        }
 
         #endregion
 
@@ -155,7 +170,7 @@ namespace WPF.PRC.PBF
         /// <summary>
         ///     Method to invoke when the SearchText changed.
         /// </summary>
-        private void SearchTextTextChanged()
+        private void OnSearchTextTextChanged()
         {
             //Обнуляем счётчик отфильтрованных Item'ов
             _filtredItemsCounter = 0;
@@ -164,7 +179,7 @@ namespace WPF.PRC.PBF
             //Фильтрация
             CollectionViewSource.GetDefaultView(ItemsCollection).Filter = item =>
             {
-                var tEntity = item as TEntity;
+                var tEntity = item as ISuggestable;
 
                 foreach (var filterWord in SearchText.ToLower().Split(_delimiterChars))
 
@@ -189,6 +204,24 @@ namespace WPF.PRC.PBF
         /// Called when the SelectedItem property has changed.
         /// </summary>
         public virtual void OnSelectedItemChanged() { }
+
+        protected override Task InitializeAsync()
+        {
+            IEnumerable<ISuggestable> collection = new ObservableCollection<ISuggestable>();
+            switch (EntityType)
+            {
+                case SuggestEntityType.PlaceOfBirth:
+                    collection = _dataBaseService.LoadObservableCollectionOf<PlaceOfBirth>();
+                    break;
+                case SuggestEntityType.Citizenship:
+                    collection = _dataBaseService.LoadObservableCollectionOf<Citizenship>();
+                    break;
+            }
+            ItemsCollection = new ObservableCollection<ISuggestable>(collection);
+            ItemsCollection.Sort();
+
+            return base.InitializeAsync();
+        }
 
         #endregion
     }

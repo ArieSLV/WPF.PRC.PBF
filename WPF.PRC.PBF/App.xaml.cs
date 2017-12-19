@@ -45,12 +45,10 @@ namespace WPF.PRC.PBF
 
             Log.Info("Ручное сопоставление View и ViewModel");
             var viewLocator = ServiceLocator.Default.ResolveType<IViewModelLocator>();
-            viewLocator.Register(typeof(SuggestUserControl), typeof(CitizenshipSuggestViewModel));
-            
+            viewLocator.Register(typeof(SuggestUserControl), typeof(SuggestModule));
 
-            // To auto-forward styles, check out Orchestra (see https://github.com/wildgums/orchestra)
-            StyleHelper.CreateStyleForwardersForDefaultStyles();
-
+            var viewModelLovator = ServiceLocator.Default.ResolveType<IViewModelLocator>();
+            viewModelLovator.Register(typeof(SuggestModule), typeof(SuggestUserControl));
 
             InputLanguage.CurrentInputLanguage = InputLanguage.FromCulture(new System.Globalization.CultureInfo("ru-RU"));
 

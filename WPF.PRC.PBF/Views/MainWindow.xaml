@@ -4,8 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:catel="http://schemas.catelproject.com"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-    xmlns:userControls="clr-namespace:WPF.PRC.PBF.Views.UserControls"
     xmlns:pbf="clr-namespace:WPF.PRC.PBF"
+    xmlns:userControls="clr-namespace:WPF.PRC.PBF.Views.UserControls"
     ResizeMode="CanResize">
 
 
@@ -16,20 +16,8 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBox Grid.Row="0">Test</TextBox>
-
-        <userControls:SuggestUserControl
-            Grid.Row="1"
-            Grid.Column="0"
-            DataContext="{Binding}">
-            
-                <i:Interaction.Behaviors>
-                    <pbf:CloseControlOnDataContextNull></pbf:CloseControlOnDataContextNull>
-                </i:Interaction.Behaviors>
-                    
-                
-            
-        </userControls:SuggestUserControl>
+        <userControls:SuggestUserControl Grid.Row="0" EntityType="Citizenship" />
+        <userControls:SuggestUserControl Grid.Row="1" EntityType="PlaceOfBirth" />
 
     </Grid>
 

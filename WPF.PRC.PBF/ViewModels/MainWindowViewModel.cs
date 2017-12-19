@@ -24,7 +24,6 @@ namespace WPF.PRC.PBF.ViewModels
             
             _messageMediator = messageMediator;
             
-
             Person = new Person();
         }
 

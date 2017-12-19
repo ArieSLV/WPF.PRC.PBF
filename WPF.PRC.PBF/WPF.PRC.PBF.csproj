@@ -106,9 +106,11 @@
       <DependentUpon>201712070828352_one.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\UnitEntitysModels\DividentsPaymentWays.cs" />
     <Compile Include="Services\DataBaseService.cs" />
     <Compile Include="Services\Interfaces\IDataBaseService.cs" />
     <Compile Include="Services\Interfaces\ISuggestable.cs" />
+    <Compile Include="ViewModels\Enums\SuggestEntityType.cs" />
     <Compile Include="Views\UserControls\SuggestUserControl.xaml.cs">
       <DependentUpon>SuggestUserControl.xaml</DependentUpon>
     </Compile>
@@ -148,7 +150,6 @@
     <Compile Include="ViewModels\Base\SuggestModule.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\UnitEntitysViewModels\Citizenship\CitizenshipEditorWindowViewModel.cs" />
-    <Compile Include="ViewModels\UnitEntitysViewModels\Citizenship\CitizenshipSuggestViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

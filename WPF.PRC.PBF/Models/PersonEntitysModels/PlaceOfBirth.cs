@@ -7,8 +7,13 @@ namespace WPF.PRC.PBF
     /// Место рождения
     /// </summary>
     [Table("PlaceOfBirths")]
-    public class PlaceOfBirth : ModelBase
+    public class PlaceOfBirth : ModelBase, ISuggestable
     {
+        /// <summary>
+        ///     Обозначение невыбранного типа места рождения
+        /// </summary>
+        public string DefaultValue { get; } = "[Место рождения не выбрано]";
+
         #region PlaceOfBirthId свойство
 
         /// <summary>
@@ -52,5 +57,12 @@ namespace WPF.PRC.PBF
         /// </summary>
         /// <returns></returns>
         public override string ToString() => Value;
+
+        public int CompareTo(object obj)
+        {
+            return string.CompareOrdinal(Value, ((PlaceOfBirth)obj).Value);
+        }
+
+        
     }
 }
