@@ -1,18 +1,20 @@
-﻿using Catel.MVVM;
+﻿using Catel;
+using Catel.MVVM;
 
 namespace WPF.PRC.PBF
 {
-    class CitizenshipEditorWindowViewModel : ViewModelBase
+    public class CitizenshipEditorWindowViewModel : ViewModelBase
     {
+        public override string Title => "Редактирование гражданства";
+        
         public CitizenshipEditorWindowViewModel(Citizenship citizenship)
         {
-            Citizenship = citizenship ?? new Citizenship();
+            Argument.IsNotNull("citizenship", citizenship);
+
+            Citizenship = citizenship;
         }
 
+        [Model]
         public Citizenship Citizenship { get; set; }
-
-       
-
-       
     }
 }

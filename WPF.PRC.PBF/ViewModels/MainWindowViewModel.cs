@@ -47,6 +47,9 @@ namespace WPF.PRC.PBF.ViewModels
         [ViewModelToModel]
         public Citizenship Citizenship { get; set; }
 
+        [ViewModelToModel]
+        public PlaceOfBirth PlaceOfBirth { get; set; }
+
         #endregion
 
         
@@ -56,11 +59,15 @@ namespace WPF.PRC.PBF.ViewModels
         {
             await base.InitializeAsync();
 
-            _messageMediator.Register<ISuggestable>(this, citizenship =>
+            _messageMediator.Register<ISuggestable>(this, entity =>
             {
-                if (citizenship.GetType() == typeof(Citizenship))
+                if (entity.GetType() == typeof(Citizenship))
                 {
-                    Citizenship = (Citizenship)citizenship;
+                    Citizenship = (Citizenship)entity;
+                }
+                else if(entity.GetType() == typeof(PlaceOfBirth))
+                {
+                    PlaceOfBirth = (PlaceOfBirth)entity;
                 }
             });
         }

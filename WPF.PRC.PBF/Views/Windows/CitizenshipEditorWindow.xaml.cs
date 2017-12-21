@@ -1,21 +1,12 @@
-﻿using System;
-using System.Windows;
+﻿using Catel.Windows;
 
 namespace WPF.PRC.PBF
 {
-    /// <summary>
-    /// Interaction logic for CitizenshipEditorWindow.xaml
-    /// </summary>
-    public partial class CitizenshipEditorWindow : Window
+    public partial class CitizenshipEditorWindow : DataWindow
     {
-        public CitizenshipEditorWindow()
+        public CitizenshipEditorWindow(CitizenshipEditorWindowViewModel viewModel) : base (viewModel)
         {
             InitializeComponent();
-        }
-
-        private void Accept_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = true;
-        }
+        }    
     }
 }

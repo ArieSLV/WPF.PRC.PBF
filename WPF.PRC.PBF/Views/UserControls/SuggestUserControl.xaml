@@ -42,16 +42,18 @@
                             Name="SuggestList"
                             Grid.Column="0"
                             Width="{Binding ElementName=SearchingTextBox, Path=Width}"
-                            ItemsSource="{Binding ItemsCollection}" />
+                            ItemsSource="{Binding ItemsCollection}"
+                            SelectedItem="{Binding SelectedItem}" />
                         <StackPanel Grid.Column="1">
-                            <Button IsEnabled="{Binding ElementName=SearchingTextBox, Path=Text, Converter={pbf:StringIsNotEmptyToBoolTrue}, Mode=OneWay}">
+                            <Button Command="{Binding AddNewEntityCommand}">
                                 <TextBlock Text="add new" />
                             </Button>
-                            <Button IsEnabled="{Binding ElementName=SuggestList, Path=SelectedItem, Converter={pbf:NotNullToBoolTrue}}">
-                                <TextBlock Text="remove" />
-                            </Button>
-                            <Button IsEnabled="{Binding ElementName=SuggestList, Path=SelectedItem, Converter={pbf:NotNullToBoolTrue}}">
+                            <Button Command="{Binding EditEntityCommand}" IsEnabled="{Binding ElementName=SuggestList, Path=SelectedItem, Converter={pbf:NotNullToBoolTrue}}">
                                 <TextBlock Text="edit" />
+                            </Button>
+                            <Button Command="{Binding DeleteEntityCommand}"
+                                IsEnabled="{Binding ElementName=SuggestList, Path=SelectedItem, Converter={pbf:NotNullToBoolTrue}}">
+                                <TextBlock Text="remove" />
                             </Button>
                         </StackPanel>
                     </Grid>

@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SuggestModule\CitizenshipSuggesting.cs" />
     <Compile Include="UnitEntity\UnitEntityTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +57,9 @@
       <Project>{dfc759bb-256d-4d5d-bd1f-350cf2be3188}</Project>
       <Name>WPF.PRC.PBF</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SuggestModule\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

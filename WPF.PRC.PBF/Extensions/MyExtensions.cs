@@ -54,7 +54,6 @@ namespace WPF.PRC.PBF
 
         #region Obsolete methods
 
-        [Obsolete]
         public static object GetIDPropertyValue<T>(this T obj) where T : ISuggestable
         {
             var t = typeof(T);

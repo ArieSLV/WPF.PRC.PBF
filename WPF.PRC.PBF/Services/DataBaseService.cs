@@ -8,7 +8,7 @@ using WPF.PRC.PBF.Services.Interfaces;
 
 namespace WPF.PRC.PBF.Services
 {
-    internal class DataBaseService : IDataBaseService
+    public class DataBaseService : IDataBaseService
     {
         private readonly DbContext _db;
 

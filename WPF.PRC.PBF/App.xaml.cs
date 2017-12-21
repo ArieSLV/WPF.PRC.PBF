@@ -42,13 +42,17 @@ namespace WPF.PRC.PBF
             Log.Info("Registering custom types");
             var serviceLocator = ServiceLocator.Default;
             serviceLocator.RegisterType<IDataBaseService, DataBaseService>();
+            serviceLocator.RegisterType<ICitizenshipRepository, CitizenshipRepository>(RegistrationType.Transient);
+            
 
             Log.Info("Ручное сопоставление View и ViewModel");
             var viewLocator = ServiceLocator.Default.ResolveType<IViewModelLocator>();
-            viewLocator.Register(typeof(SuggestUserControl), typeof(SuggestModule));
+            viewLocator.Register(typeof(SuggestUserControl), typeof(SuggestUserControlViewModel));
+            viewLocator.Register(typeof(CitizenshipEditorWindow), typeof(CitizenshipEditorWindowViewModel));
 
             var viewModelLovator = ServiceLocator.Default.ResolveType<IViewModelLocator>();
-            viewModelLovator.Register(typeof(SuggestModule), typeof(SuggestUserControl));
+            viewModelLovator.Register(typeof(SuggestUserControlViewModel), typeof(SuggestUserControl));
+            viewModelLovator.Register(typeof(CitizenshipEditorWindowViewModel), typeof(CitizenshipEditorWindow));
 
             InputLanguage.CurrentInputLanguage = InputLanguage.FromCulture(new System.Globalization.CultureInfo("ru-RU"));
 

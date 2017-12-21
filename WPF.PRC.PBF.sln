@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.0
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF.PRC.PBF", "WPF.PRC.PBF\WPF.PRC.PBF.csproj", "{DFC759BB-256D-4D5D-BD1F-350CF2BE3188}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF.PRC.PBF.Test", "WPF.PRC.PBF.Test\WPF.PRC.PBF.Test.csproj", "{F8CB551D-F776-4AED-8B88-BECBDE849A8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{DFC759BB-256D-4D5D-BD1F-350CF2BE3188}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFC759BB-256D-4D5D-BD1F-350CF2BE3188}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFC759BB-256D-4D5D-BD1F-350CF2BE3188}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8CB551D-F776-4AED-8B88-BECBDE849A8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8CB551D-F776-4AED-8B88-BECBDE849A8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8CB551D-F776-4AED-8B88-BECBDE849A8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8CB551D-F776-4AED-8B88-BECBDE849A8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
